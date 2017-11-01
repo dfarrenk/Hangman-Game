@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Events!</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron" id="game">
+                    <h1>Press any key to start</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="jumbotron">
+                    <h3>Hint: <span id="hint"></span></h3>
+                    <h3>Player's lives: <span id="player-lives">0</span></h3>
+                    <h3>Player's score: <span id="player-score">0</span></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var html = "<h2>The word: <span id='word-in-play' style='letter-spacing: 20px'></span></h2>" + "<h2>Guessed letters: <span id='guessed-letters' style='letter-spacing: 20px'></span></h2>";
+
+        var gameStarted = false;
+        var wordInPlay;
+        var guessedLettersInPlay;
+        //var lastGuess;
+        //Insert words for the hangman game here. Ensure lower case.
+        var wordList = ["stalfos", "twinrova"];
+        var hintList = ["a skeletal foe", "two witches become one"];
+        //Pick a random word from the list.
+        var word = wordList[Math.floor(Math.random() * wordList.length)];
+        //Strings are immutable, you'd have to use a replace function each time you wanted to update beyond appending.
+        var placeholderWord = [];
+        var guessedLetters = [];
+
+        function resetGame() {
+            guessedLetters = [];
+            placeholderWord = [];
+            word = wordList[Math.floor(Math.random() * wordList.length)];
+            for (var i = 0; i < word.length; i++) {
+                placeholderWord.push("_");
+            }
+            wordInPlay.textContent = placeholderWord.join('');
+            guessedLettersInPlay.textContent = guessedLetters.join('');
+        }
+
+
+        function updatePlaceholderWord(guess) {
+            //initial setup
+            if (!gameStarted) {
+                document.querySelector("#game").innerHTML = html;
+                gameStarted = true;
+                wordInPlay = document.getElementById("word-in-play");
+                guessedLettersInPlay = document.getElementById("guessed-letters");
+                //lastGuess = document.getElementById("last-guess");
+                resetGame();
+                return;
+            }
+
+            guess = guess.toLowerCase();
+            //lastGuess.textContent = guess;
+
+            //Validate input
+            if (!guess.match(/[a-z]/i) || guess.length !== 1) {
+                alert("Letters only.");
+                return;
+            }
+
+            //Check to see if that letter has already been used
+            for (var i = 0; i < guessedLetters.length; i++) {
+                if (guess === guessedLetters[i]) {
+                    alert("You already tried " + guess);
+                    return;
+                }
+            }
+
+
+            guessedLetters.push(guess); //If you change this to += then guessedLetters acts purely as a String.
+            guessedLettersInPlay.textContent = guessedLetters.join('');
+            //Update the word in play.
+            for (var i = 0; i < word.length; i++) {
+                if (guess === word[i]) {
+                    placeholderWord[i] = word[i];
+                    //.join() can be used to return an array as a string with the specified delimeters.
+                    wordInPlay.textContent = placeholderWord.join('');
+                    console.log(word, placeholderWord);
+                }
+            }
+
+            if (placeholderWord.join("") === word) {
+                alert("You won! the word was " + word);
+                resetGame();
+            }
+
+            /* if (players <= 0) {
+                //you lose!
+            } */
+        }
+
+
+        document.onkeyup = function(event) {
+            updatePlaceholderWord(event.key.toLowerCase());
+        }
+    </script>
+</body>
+
+</html>

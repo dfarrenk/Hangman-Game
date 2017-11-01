@@ -1,0 +1,19 @@
+Hangman game:
+    Figure out how to have a "Press Enter to Start" screen.
+
+Pick a random word from an array.
+
+Set up a placeholder array using underscores instead of character.
+
+Player makes a guess:
+    If guess has already been made, break and throw an error
+    Add letter to guessed letters.
+    Search word array for a match.
+        If there is a match, replace underscores in appropriate positions with letter
+        If there isn't a match, player loses a life.
+
+Repeat until the placeholder array has no underscores or the player runs out of lives
+    Display win/loss screen
+    Update win/less record
+    Reset number of lives
+    Goto 4
