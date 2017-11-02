@@ -9,8 +9,8 @@ var playerScoreInPlay;
 var playerLossesInPlay
 //var lastGuess;
 //Insert words for the hangman game here. Ensure lower case.
-var wordList = ["stalfos", "twinrova", "epona"];
-var hintList = ["a skeletal foe", "fire and ice", "trusty steed"];
+var wordList = ["stalfos", "twinrova", "epona", "ganondorf", "link", "goron"];
+var hintList = ["a skeletal foe", "twin witches, fire and ice", "trusty steed", "an ancient evil in human form", "bearer of courage", "rock-eaters"];
 //Pick a random word from the list.
 var word;
 var hint;
@@ -19,6 +19,7 @@ var placeholderWord = [];
 var guessedLetters = [];
 var playerLives = 9;
 var playerScore = 0;
+var playerLosses = 0;
 var gameOver = true;
 
 function resetGame() {
@@ -35,6 +36,7 @@ function resetGame() {
     placeholderWord = [];
     playerLives = 8;
     playerScoreInPlay.textContent = playerScore;
+    hintInPlay.classList.remove('animated');
     word = wordList[Math.floor(Math.random() * wordList.length)];
     hint = hintList[wordList.indexOf(word)];
     for (var i = 0; i < word.length; i++) {
@@ -102,11 +104,15 @@ function updatePlaceholderWord(guess) {
         //you lose!
         var audio = new Audio('assets/sounds/LTTP_Error.wav');
         audio.play();
+        playerLosses++;
+        playerLossesInPlay.textContent = playerLosses;
+        wordInPlay.textContent = word;
         gameOver = true;
     }
 
     if (playerLives === 4) {
         hintInPlay.textContent = hint;
+        hintInPlay.classList.add('animated');
     }
 }
 
