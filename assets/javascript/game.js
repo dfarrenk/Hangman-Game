@@ -34,7 +34,7 @@ function resetGame() {
     //lastGuess = document.getElementById("last-guess");
     guessedLetters = [];
     placeholderWord = [];
-    playerLives = 8;
+    playerLives = 9;
     playerScoreInPlay.textContent = playerScore;
     hintInPlay.classList.remove('animated');
     word = wordList[Math.floor(Math.random() * wordList.length)];
